@@ -1,0 +1,16 @@
+// dream_analysis.proto
+syntax = "proto3";
+
+package dream_analysis;
+
+service DreamAnalysisService {
+  rpc AnalyzeDream (DreamRequest) returns (DreamAnalysisResponse) {}
+}
+
+message DreamRequest {
+  string dream_description = 1;
+}
+
+message DreamAnalysisResponse {
+  string analysis = 1;
+}

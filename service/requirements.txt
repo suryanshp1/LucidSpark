@@ -1,0 +1,6 @@
+crewai==0.22.5
+crewai-tools==0.0.15
+python-dotenv==1.0.0
+langchain-community===0.0.31
+grpcio==1.64.1
+grpcio-tools==1.62.2

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  localaigents:
+    build: 
+      context: .
+    image: agent
+    container_name: agent
+    hostname: agent
+    networks:
+      - internal
+    env_file:
+      - .env
+    volumes:
+      - ./:/app/
+
+  ollama-server:
+    image: ollama/ollama  # Replace with specific Ollama version if needed
+    container_name: ollama-server
+    hostname: ollama-server
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            capabilities: ["gpu"]
+            count: all  # Adjust count for the number of GPUs you want to use
+    volumes:
+      - ollama:/root/.ollama
+      - ./scripts/model_pull.sh:/model_pull.sh
+    ports:
+      - "11434:11434"
+    pull_policy: always
+    tty: true
+    networks:
+      - internal
+    restart: always
+    entrypoint: ["/usr/bin/bash", "/model_pull.sh"]
+    env_file:
+      - .env
+
+
+volumes:
+  ollama:
+
+networks:
+  internal:
+    external: false
